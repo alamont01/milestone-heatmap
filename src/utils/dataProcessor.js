@@ -1,10 +1,26 @@
 import { uniqBy, uniq } from 'lodash';
 
-export const processHeatmapData = (rawData) => {
-  // Get unique milestones and business units
-  const milestones = uniqBy(rawData, 'Milestone_Name')
-    .map(m => m.Milestone_Name)
-    .filter(Boolean);
+export const processHeatmapData = (rawData, sortBy = 'date') => {
+  // Get unique milestones and sort them
+  let milestones = uniqBy(rawData, 'Milestone_Name')
+    .map(m => ({
+      name: m.Milestone_Name,
+      endDate: new Date(m.Milestone_End),
+      impact: parseFloat(m.Overall_Impact_Score) || 0
+    }))
+    .filter(m => m.name);
+
+  // Sort milestones based on the sortBy parameter
+  if (sortBy === 'date') {
+    milestones.sort((a, b) => a.endDate - b.endDate);
+  } else if (sortBy === 'impact') {
+    milestones.sort((a, b) => b.impact - a.impact);
+  } else if (sortBy === 'name') {
+    milestones.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  // Extract just the names after sorting
+  milestones = milestones.map(m => m.name);
   
   const businessUnits = uniq(rawData.map(row => row.Business_Unit))
     .filter(Boolean);
@@ -54,6 +70,7 @@ export const getImpactDetails = (rawData, milestone, businessUnit) => {
   if (!record) return null;
   
   return {
+    milestoneEnd: record.Milestone_End,
     peopleImpacts: {
       rolesResponsibilities: parseFloat(record.Roles_Responsibilities_Impact) || 0,
       workload: parseFloat(record.Workload_Impact) || 0,

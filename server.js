@@ -30,6 +30,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     // Validate the required columns
     const requiredColumns = [
       'Milestone_Name',
+      'Milestone_End',
       'Business_Unit',
       'Overall_Impact_Score',
       'Roles_Responsibilities_Impact',

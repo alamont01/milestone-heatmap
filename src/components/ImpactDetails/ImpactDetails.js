@@ -42,7 +42,8 @@ const ImpactDetails = ({ details }) => {
     technologyImpacts,
     overall,
     peak,
-    duration
+    duration,
+    milestoneEnd
   } = details;
 
   return (
@@ -50,6 +51,11 @@ const ImpactDetails = ({ details }) => {
       <CardContent>
         <Typography variant="h6" gutterBottom>
           Impact Details
+          {milestoneEnd && (
+            <Typography variant="subtitle2" color="textSecondary" component="span" sx={{ ml: 2 }}>
+              End Date: {new Date(milestoneEnd).toLocaleDateString()}
+            </Typography>
+          )}
           <ImpactChip 
             label={`Peak Impact: ${peak.toFixed(1)}`}
             severity={peak}

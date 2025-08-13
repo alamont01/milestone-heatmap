@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container, CssBaseline, Box, Alert, Snackbar } from '@mui/material';
-import { FileUpload } from './components/FileUpload';
+import FileUpload from './components/FileUpload';
 import { Heatmap, HeatmapToolbar } from './components/Heatmap';
-import { ImpactDetails } from './components/ImpactDetails';
+import ImpactDetails from './components/ImpactDetails/ImpactDetails';
 import useFileUpload from './hooks/useFileUpload';
 import theme from './theme/theme';
 import { getImpactDetails } from './utils/dataProcessor';

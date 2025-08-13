@@ -22,13 +22,13 @@ const colorscale = [
   [1, '#2171b5']     // High Impact
 ];
 
-const Heatmap = ({ data, onCellClick }) => {
+const Heatmap = ({ data, onCellClick, sortBy = 'date' }) => {
   const [hoveredCell, setHoveredCell] = useState(null);
   
   const heatmapData = useMemo(() => {
     if (!data || data.length === 0) return null;
-    return processHeatmapData(data);
-  }, [data]);
+    return processHeatmapData(data, sortBy);
+  }, [data, sortBy]);
 
   if (!heatmapData) {
     return (
